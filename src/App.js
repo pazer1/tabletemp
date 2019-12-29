@@ -103,15 +103,11 @@ function App() {
 
       data={data}
 
-    
-
       columns={[
         {title:"Name",field:'name',filtering :false,},
         {title:"Cluster",field:'cluster',
         filtering:true,
-        filterCellStyle:{
-          name:"asd",cluster:"asd"
-        }
+        
       },
         {title:"NameSpace",field:'Namespace',filtering :false},
         {title:"Labels",field:'labels',filtering :false,},
@@ -198,17 +194,34 @@ function App() {
         icon:DeleteIcon,
         onClick: (evt, oldData) => {
           var onlyInA = data.filter(comparer(oldData));
+          console.log("a")
+          console.log(onlyInA)
           var onlyInB = oldData.filter(comparer(data));
+          console.log("b")
+          console.log(onlyInB)
           var result = onlyInA.concat(onlyInB);
-          console.log(result)
           new Promise((resolve, reject) => {
             setTimeout(() => {
                 setData(result);
                 resolve();
             }, 1000);
         })
-        }
-      }]}
+        } 
+      },
+      {
+      icon: Refresh,
+      tooltip: 'Refresh',
+      isFreeAction: true,
+      onClick: (event) => alert("You want to add a new row")
+    },
+    {
+      icon: Settings,
+      tooltip: 'Table Setting',
+      isFreeAction: true,
+      onClick: (event) => alert("You want to table Setting")
+    },
+   
+    ]}
       
       
       icons={tableIcons}
@@ -219,8 +232,11 @@ function App() {
 
 function comparer(otherArray){
   return function(current){
+    console.log("current")
+    console.log(current)
     return otherArray.filter(function(other){
-      return other.name == current.name&& other.cluster == current.cluster
+      console.log("othercluster = "+other.cluster +"currnetcluster =" +current.cluster)
+      return other.tableData.id == current.tableData.id&& other.cluster == current.cluster
     }).length == 0;
   }
 }
