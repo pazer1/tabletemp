@@ -106,8 +106,13 @@ function App() {
       columns={[
         {title:"Name",field:'name',filtering :false,},
         {title:"Cluster",field:'cluster',
-        filtering:true,
-        
+        FilterRow:()=>{
+          return(
+            <div>
+              <button>sd</button>
+              </div>
+          )
+        }
       },
         {title:"NameSpace",field:'Namespace',filtering :false},
         {title:"Labels",field:'labels',filtering :false,},
