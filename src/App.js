@@ -195,22 +195,18 @@ function App() {
       }}
       actions={[{
         tooltip:'Remove All Selectd Row',
-        icon:"delete",
+        icon:DeleteIcon,
         onClick: (evt, oldData) => {
-          new Promise((resolve,reject) => {
-            setTimeout(() =>{
-              setData([ {name:"nginx-deplyment-5533125",
-              cluster:"AWS-US-West3",
-              namespace:"tenant-rishabnbspk",
-              labels:["app","pod-template-hash"],
-              status:"Running",
-              nodeip:"10.0.1.21",
-              age:"2days,6 hrs"
-              },
-            ])
-            resolve();
-            },1000)
-          })
+          var onlyInA = data.filter(comparer(oldData));
+          var onlyInB = oldData.filter(comparer(data));
+          var result = onlyInA.concat(onlyInB);
+          console.log(result)
+          new Promise((resolve, reject) => {
+            setTimeout(() => {
+                setData(result);
+                resolve();
+            }, 1000);
+        })
         }
       }]}
       
@@ -221,7 +217,13 @@ function App() {
   );
 }
 
-
+function comparer(otherArray){
+  return function(current){
+    return otherArray.filter(function(other){
+      return other.name == current.name&& other.cluster == current.cluster
+    }).length == 0;
+  }
+}
 
 
 export default App;
